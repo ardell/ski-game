@@ -5,11 +5,17 @@ window.onload = function() {
     create:  create,
     update:  update
   });
+  var PLAYER_WIDTH    = 148;
+  var PLAYER_HEIGHT   = 244;
+  var DIRECTION_LEFT  = 'left';
+  var DIRECTION_DOWN  = 'down';
+  var DIRECTION_RIGHT = 'right';
   var background, player, cursors;
+  var currentDirection = DIRECTION_DOWN;
 
   function preload () {
     game.load.image('snow', 'images/snow.png');
-    game.load.spritesheet('skiier', 'images/skiier.png', 148, 244);
+    game.load.spritesheet('skiier', 'images/skiier.png', PLAYER_WIDTH, PLAYER_HEIGHT);
   }
 
   function create () {
@@ -17,30 +23,42 @@ window.onload = function() {
     background = game.add.tileSprite(0, 0, 800, 600, 'snow');
 
     // Set up the player
-    player = game.add.sprite(game.world.centerX, game.world.centerY, 'skiier');
-    player.animations.add('left', [0], 10, true);
-    player.animations.add('down', [1], 10, true);
-    player.animations.add('right', [2], 10, true);
+    player = game.add.sprite(game.world.centerX-PLAYER_WIDTH/2, 40, 'skiier');
+    player.animations.add(DIRECTION_LEFT, [0], 10, true);
+    player.animations.add(DIRECTION_DOWN, [1], 10, true);
+    player.animations.add(DIRECTION_RIGHT, [2], 10, true);
 
     // Receive keypresses
     cursors = game.input.keyboard.createCursorKeys();
   }
 
   function update() {
-    background.tilePosition.y -= 2;
+    var downhillVelocity;
+    var STRAIGHT_DOWN_VELICITY = 2.0;
+    var DIAGONAL_VELICITY      = 1.5;
 
     //  Reset the players velocity (movement)
-    player.body.velocity.x = 0;
     if (cursors.left.isDown) {                // Point to the left
+      currentDirection = DIRECTION_LEFT;
+    } else if (cursors.right.isDown) {        // Point to the right
+      currentDirection = DIRECTION_RIGHT;
+    } else if (cursors.down.isDown) {         // Point down-hill
+      currentDirection = DIRECTION_DOWN;
+    }
+    if (currentDirection == DIRECTION_LEFT) {
       player.body.velocity.x = -150;
       player.animations.play('left');
-    } else if (cursors.right.isDown) {        // Point to the right
+      downhillVelocity = DIAGONAL_VELICITY;
+    } else if (currentDirection == DIRECTION_RIGHT) {
       player.body.velocity.x = 150;
       player.animations.play('right');
-    } else {                                  // Point down-hill
-      player.animations.stop();
+      downhillVelocity = DIAGONAL_VELICITY;
+    } else {
+      player.body.velocity.x = 0;
       player.animations.play('down');
+      downhillVelocity = STRAIGHT_DOWN_VELICITY;
     }
+    background.tilePosition.y -= downhillVelocity;
   }
 };
 
