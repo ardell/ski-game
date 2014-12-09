@@ -1,10 +1,7 @@
 // Put all your game code within this function definition
-window.onload = function() {
-  var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
-    preload: preload,
-    create:  create,
-    update:  update
-  });
+$(function() {
+  var WINDOW_WIDTH  = $(window).width();
+  var WINDOW_HEIGHT = $(window).height();
   var PLAYER_WIDTH    = 148;
   var PLAYER_HEIGHT   = 244;
   var DIRECTION_LEFT  = 'left';
@@ -12,6 +9,11 @@ window.onload = function() {
   var DIRECTION_RIGHT = 'right';
   var background, player, cursors;
   var currentDirection = DIRECTION_DOWN;
+  var game = new Phaser.Game(WINDOW_WIDTH, WINDOW_HEIGHT, Phaser.AUTO, '', {
+    preload: preload,
+    create:  create,
+    update:  update
+  });
 
   function preload () {
     game.load.image('snow', 'images/snow.png');
@@ -20,7 +22,7 @@ window.onload = function() {
 
   function create () {
     // Add a background
-    background = game.add.tileSprite(0, 0, 800, 600, 'snow');
+    background = game.add.tileSprite(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 'snow');
 
     // Set up the player
     player = game.add.sprite(game.world.centerX-PLAYER_WIDTH/2, 40, 'skiier');
@@ -60,5 +62,5 @@ window.onload = function() {
     }
     background.tilePosition.y -= downhillVelocity;
   }
-};
+});
 
