@@ -1,9 +1,9 @@
 // Put all your game code within this function definition
 $(function() {
-  var WINDOW_WIDTH  = $(window).width();
-  var WINDOW_HEIGHT = $(window).height();
-  var PLAYER_WIDTH    = 148;
-  var PLAYER_HEIGHT   = 244;
+  var WINDOW_WIDTH    = $(window).width();
+  var WINDOW_HEIGHT   = $(window).height();
+  var PLAYER_WIDTH    = 39;
+  var PLAYER_HEIGHT   = 63;
   var DIRECTION_LEFT  = 'left';
   var DIRECTION_DOWN  = 'down';
   var DIRECTION_RIGHT = 'right';
@@ -17,29 +17,45 @@ $(function() {
 
   function preload () {
     game.load.image('snow', 'images/snow.png');
+    game.load.image('tree', 'images/tree.png');
+    game.load.image('flag', 'images/flag.png');
     game.load.spritesheet('skiier', 'images/skiier.png', PLAYER_WIDTH, PLAYER_HEIGHT);
+    game.load.tilemap('keystone', 'js/keystone.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.spritesheet('tiles', 'images/tiles.png', 64, 64);
   }
 
   function create () {
     // Add a background
-    background = game.add.tileSprite(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 'snow');
+    background = game.add.tileSprite(0, 0, 1280, 2368, 'snow');
+
+    // Load tilemap/tiles
+    map     = game.add.tilemap('keystone');
+    map.addTilesetImage('tiles');
+    layer   = map.createLayer('tiles');
+    game.world.setBounds(0, 0, 1280, 2368);
 
     // Set up the player
-    player = game.add.sprite(game.world.centerX-PLAYER_WIDTH/2, 40, 'skiier');
+    game.physics.startSystem(Phaser.Physics.Arcade);
+    player = game.add.sprite(game.world.centerX-PLAYER_WIDTH/2.0, 40, 'skiier');
+    game.physics.arcade.enable(player);
+    player.body.collideWorldBounds = true;
     player.animations.add(DIRECTION_LEFT, [0], 10, true);
     player.animations.add(DIRECTION_DOWN, [1], 10, true);
     player.animations.add(DIRECTION_RIGHT, [2], 10, true);
 
     // Receive keypresses
     cursors = game.input.keyboard.createCursorKeys();
+
+    // Camera
+    game.camera.follow(player);
   }
 
   function update() {
     var downhillVelocity;
-    var STRAIGHT_DOWN_VELICITY = 2.0;
-    var DIAGONAL_VELICITY      = 1.5;
+    var STRAIGHT_DOWN_VELICITY = 150;
+    var DIAGONAL_VELICITY      = 100;
 
-    //  Reset the players velocity (movement)
+    // Reset the player's velocity (movement)
     if (cursors.left.isDown) {                // Point to the left
       currentDirection = DIRECTION_LEFT;
     } else if (cursors.right.isDown) {        // Point to the right
@@ -60,7 +76,7 @@ $(function() {
       player.animations.play('down');
       downhillVelocity = STRAIGHT_DOWN_VELICITY;
     }
-    background.tilePosition.y -= downhillVelocity;
+    player.body.velocity.y = downhillVelocity;
   }
 });
 
