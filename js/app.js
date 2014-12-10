@@ -27,6 +27,10 @@ $(function() {
   }
 
   function create () {
+    // Loading screen
+    game.stage.backgroundColor = '#ffffff';
+    loadingText = game.add.text(0, 0, "Loading...");
+
     // Load map
     map = game.add.tilemap('keystone');
 
