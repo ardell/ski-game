@@ -44,6 +44,10 @@ $(function() {
     map.addTilesetImage('tiles');
     layer = map.createLayer('tiles');
 
+    // Fix broken tilemaps in Safari, see:
+    // https://github.com/photonstorm/phaser/issues/1439
+    layer.renderSettings.enableScrollDelta = !(game.device.safari || game.device.mobileSafari)
+
     // Set up the player
     game.physics.startSystem(Phaser.Physics.Arcade);
     player = game.add.sprite(game.world.centerX, 40, 'skiier');
