@@ -1,4 +1,11 @@
-# Phaser Ruby Starter Kit
+# Ski Game
+
+This is a ski game that I built with help of my niece. All credit for artwork
+goes to Molly!
+
+It is built with [Phaser](https://phaser.io/), using the Ruby Starter Kit.
+
+[Check out the demo here](https://ardell.github.io/ski-game/)
 
 ## Dependencies
 
