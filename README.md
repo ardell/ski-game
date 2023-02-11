@@ -10,7 +10,7 @@ It is built with [Phaser](https://phaser.io/), using the Ruby Starter Kit.
 ## Dependencies
 
 - Git (on OS X install via homebrew)
-- Ruby 2.1.2 (we recommend using RVM)
+- Ruby 3.2.1 (we recommend using RVM)
 
 ## Installation
 
