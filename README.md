@@ -14,9 +14,9 @@ It is built with [Phaser](https://phaser.io/), using the Ruby Starter Kit.
 
 ## Installation
 
-1. Clone this repository, e.g. `git clone https://github.com/ardell/phaser-starter-kit.git penguin-wars` where "penguin-wars" is the folder you want to build your game in.
-1. `cd penguin-wars` again, where "penguin-wars" is the directory where you cloned the starter kit into.
-1. `bundle` This installs ruby dependencies, such as your web server.
+1. Clone this repository, e.g. `git clone https://github.com/ardell/ski-game.git`
+1. `cd ski-game`
+1. `bundle` This installs ruby dependencies, such as your web server
 
 ## Building your game
 
